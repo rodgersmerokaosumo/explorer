@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/chat.py": {
+      "runtime": "python3.13"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/chat.py"
+    }
+  ]
+}
