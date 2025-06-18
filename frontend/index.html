@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorer – AI Travel Companion</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="container">
+    <!-- Map Area -->
+    <div id="map"></div>
+
+    <!-- Chat Sidebar -->
+    <div id="chat-sidebar">
+      <h2>💬 Ask Explorer</h2>
+      <div id="chat-window">
+        <div class="message system">Hi! I'm Explorer – your AI travel buddy. Ask me anything!</div>
+      </div>
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Where should I go in Nairobi?" required />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>
