@@ -1,19 +1,16 @@
 from flask import Flask, request, jsonify
-import openai
-from openai import OpenAI
 import os
+from openai import OpenAI
 from flask_cors import CORS
-from dotenv import load_dotenv
 
-# Load environment variables from .env
-load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
+# Create Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS so frontend can talk to backend
 
-@app.route("/chat", methods=["POST"])
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+@app.route("/api/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message", "").strip()
 
@@ -26,7 +23,7 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are Explorer, an intelligent and eco-conscious travel assistant. Help the user find beautiful, safe, and unique travel experiences. When asked about places like restaurants or hotels, give specific names and locations if possible."},
+                {"role": "system", "content": "You are Explorer, an intelligent and eco-conscious travel assistant. Help the user find beautiful, safe, and unique travel experiences. When asked about places like restaurants or hotels, give specific names and locations and coordinates if possible."},
                 {"role": "user", "content": user_message}
             ]
         )
@@ -34,7 +31,7 @@ def chat():
         reply = response.choices[0].message.content.strip()
         print("[REPLY]:", reply)
 
-        # 🧪 TEMP: Add mock POIs if user asked about food (can replace with dynamic extraction later)
+        # Mock POIs for restaurant queries (same as your original logic)
         places = []
         if "restaurant" in user_message.lower() or "eat" in user_message.lower():
             places = [
@@ -51,13 +48,9 @@ def chat():
         print("[ERROR]", str(e))
         return jsonify({"error": "Something went wrong with the AI backend."}), 500
 
-
-
-
 @app.route("/", methods=["GET"])
 def index():
     return "Explorer AI backend is live."
 
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+# This is what Vercel looks for - the WSGI application
+handler = app
